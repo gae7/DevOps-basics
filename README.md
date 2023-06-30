@@ -5,9 +5,13 @@ An example of DevOps best practices
 ```
 python3 -m venv ~/.venv
 ```
-To install packages
+**To install packages**
 ```
 make install
 or
 pip install -r requirements.txt
+```
+**To get all libs version**
+```
+pip freeze
 ```
