@@ -1,24 +1,30 @@
-from flask import Flask
-from flask import jsonify
-
-application = Flask(__name__)
+import click
 
 
-@application.route("/")
-def hello():
-    """Return a friendly HTTP greeting."""
-    print("I am inside hello world")
-    return "Continuous Delivery Demo"
 
-@application.route("/echo/<name>")
-def echo(name):
-    print(f"This was placed in the url: new-{name}")
-    val = {"new-name": name}
-    return jsonify(val)
+@click.command()
+@click.argument('sets', nargs=-1)
+def make_set_operations(sets):
+    
+    if len(sets) < 2:
+        click.echo(click.style("The minimum number of sets to perform set operations is 2", fg="red"))
+    
+    else:
+    
+        ls_sets = []
+        for x in sets:
+            s = set((int(x) for x in x.split(",")))
+            ls_sets.append(s)
+            
+        intersection = set.intersection(*ls_sets)
+        union = set.union(*ls_sets)
+        
+        click.echo(click.style(f"Set operations. Sets: {ls_sets}", fg="red"))
+        for op, res in zip(("intersection", "union"), (intersection, union)):
+            click.echo(click.style(f"{op}: {res}", fg="blue"))
 
 
 if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # removed before deploying a production app.
-    application.debug = True
-    application.run()
+    # pylint: disable=no-value-for-parameter
+    make_set_operations()
+
